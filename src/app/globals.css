@@ -1,0 +1,195 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
+
+  --color-paper: #fffafc;
+  --color-ink: #2b2433;
+  --color-muted: #675f72;
+  --color-brand: #d0568a;
+  --color-brand-deep: #b03f72;
+  --color-brand-soft: #fce9f1;
+  --color-plum: #5b4380;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: #fffafc;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 3px;
+}
+
+/* ---------- Keyframes ---------- */
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes swap {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes item-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes photo-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-8px) rotate(-1deg);
+  }
+  50% {
+    transform: translateY(-14px) rotate(0.6deg);
+  }
+  75% {
+    transform: translateY(-6px) rotate(1deg);
+  }
+}
+
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-24px, 18px);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.animate-swap {
+  animation: swap 0.5s ease-out both;
+}
+
+.animate-bob {
+  animation: bob 4.5s ease-in-out infinite;
+}
+
+.animate-drift {
+  animation: drift 14s ease-in-out infinite;
+}
+
+.animate-photo-float {
+  animation: photo-float 7s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 26s linear infinite;
+}
+
+/* Replays the hero entrance: removing the animation and re-adding it restarts it */
+[data-hero="out"] .animate-fade-up {
+  animation: none;
+}
+
+/* ---------- Scroll reveal ---------- */
+
+.reveal {
+  opacity: 0;
+  transition:
+    opacity 0.7s ease,
+    transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.reveal-up {
+  transform: translateY(28px);
+}
+
+.reveal-left {
+  transform: translateX(-36px);
+}
+
+.reveal-right {
+  transform: translateX(36px);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Children that pop in one after another once their parent is revealed */
+.reveal .stagger-item {
+  opacity: 0;
+}
+
+.reveal.is-visible .stagger-item {
+  animation: item-in 0.5s ease-out both;
+  animation-delay: calc(var(--i, 0) * 70ms + 250ms);
+}
+
+/* ---------- Reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .animate-fade-up,
+  .animate-swap,
+  .animate-bob,
+  .animate-drift,
+  .animate-photo-float,
+  .animate-spin-slow {
+    animation: none;
+  }
+
+  .reveal,
+  .reveal .stagger-item {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    animation: none !important;
+  }
+}
